@@ -1,17 +1,15 @@
 class Solution:
     def findMin(self, nums: List[int]) -> int:
-        res = nums[0]
+        res = float("inf")
         l, r = 0, len(nums) - 1
-
-        while l <= r: # <= since there could be an array with single element
-            if nums[l] < nums[r]: # we've eliminated one of the sub arrays - we don't know which one, that's why we take the minimum.
-                res = min(res, nums[l])
-                break
+        while l <= r:
             m = (l + r) // 2
-            res = min(nums[m], res)
-            if nums[m] >= nums[0]: # in the left subarray, the greater one
+            if nums[r] >= nums[l]:
+                res = min(res, nums[l])
+                return res
+            if nums[m] >= nums[l]:
                 l = m + 1
             else:
                 r = m - 1
-        
+                res = min(res, nums[m])
         return res
