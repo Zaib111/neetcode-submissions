@@ -6,11 +6,9 @@
 
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
-        # Floyd's tortoise and hare technique. - fast and slow pointer will eventually meet if there's a cycle because distance between them decreases by 1 each iteration.
         slow, fast = head, head
-        while fast and fast.next:
-            fast = fast.next.next
-            slow = slow.next
-            if fast == slow:
+        while slow and fast and fast.next:
+            slow, fast = slow.next, fast.next.next
+            if slow == fast:
                 return True
         return False
