@@ -6,27 +6,27 @@
 
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
-        # looking like a two-pointer problem, but we can't go backwards since this is a singly linked list
-        # but, we can actually just find the midpoint of the list and reverse the second half to then use two pointers
+        # find midpoint
         slow, fast = head, head
         while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-        mid = slow
-        # now that we've found the midpoint of the list, we just reverse this half
-        prev, curr = None, mid
+            slow, fast = slow.next, fast.next.next
+        
+        # reverse from midpoint
+        prev, curr = None, slow.next
+        slow.next = prev
         while curr:
             nxt = curr.next
             curr.next = prev
             prev = curr
             curr = nxt
-        last = prev
-        # using two-pointers approach now
-        l, r = head, last
-        while r.next:
-            l_next = l.next
-            r_next = r.next
-            l.next = r
-            r.next = l_next
-            l = l_next
-            r = r_next
+        
+        # form new list
+        tail = prev
+        curr = head
+        while tail:
+            tail_left = tail.next
+            head_right = curr.next
+            curr.next = tail
+            tail.next = head_right
+            curr = head_right
+            tail = tail_left
